@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: k8s-ib-device-plugin
+spec:
+  selector:
+    matchLabels:
+      name: k8s-ib-device-plugin
+  template:
+    metadata:
+      labels:
+        name: k8s-ib-device-plugin
+    spec:
+      tolerations:
+      - key: "nvidia.com/gpu"
+        operator: "Equal"
+        value: "h100-8-ib-tractorun"
+        effect: "NoSchedule"
+      containers:
+      - name: k8s-ib-device-plugin
+        image: %%path_to_the_docker_registry%%
+        volumeMounts:
+        - mountPath: /var/lib/kubelet/device-plugins
+          name: device-plugin
+        - mountPath: /dev/infiniband
+          name: ib-devices
+      volumes:
+      - name: device-plugin
+        hostPath:
+          path: /var/lib/kubelet/device-plugins
+      - name: ib-devices
+        hostPath:
+          path: /dev/infiniband
