@@ -16,6 +16,8 @@ Note, that if resource is requested by the container, the plugin will bind **all
 
 Also note that if you want to use InfiniBand, [you will likely need](https://catalog.ngc.nvidia.com/orgs/hpc/containers/preflightcheck) `IPC_LOCK` capability. It is not set by the plugin, so you should set it manually in the pod security context.
 
+For now, this plugin just passed `/dev/infiniband` devices to the pod container. This means that network interfaces like IPoIB are not supported.
+
 ## How to install
 
 TODO: Push the nightly build to some public registry.
